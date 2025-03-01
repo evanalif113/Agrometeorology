@@ -45,7 +45,7 @@ def temperature_chart(year, month):
     filtered = df[(df['year'] == year) & (df['month'] == month)]
     if filtered.empty:
         return "No data for selected year and month."
-    return filtered.hvplot.line(x='timestamp', y='temperature', title="Temperature over Time", width=800, height=400)
+    return filtered.hvplot.line(x='timestamp', y='temperature', title="Temperature over Time", width=1400, height=600)
 
 # Fungsi untuk menampilkan grafik humidity terhadap waktu
 @pn.depends(year=year_widget, month=month_widget)
@@ -53,7 +53,15 @@ def humidity_chart(year, month):
     filtered = df[(df['year'] == year) & (df['month'] == month)]
     if filtered.empty:
         return "No data for selected year and month."
-    return filtered.hvplot.line(x='timestamp', y='humidity', title="Humidity over Time", width=800, height=400)
+    return filtered.hvplot.line(x='timestamp', y='humidity', title="Humidity over Time", width=1400, height=600)
+
+# Fungsi untuk menampilkan grafik pressure terhadap waktu
+@pn.depends(year=year_widget, month=month_widget)
+def pressure_chart(year, month):
+        filtered = df[(df['year'] == year) & (df['month'] == month)]
+        if filtered.empty:
+            return "No data for selected year and month."
+        return filtered.hvplot.line(x='timestamp', y='pressure', title="Pressure over Time", width=1400, height=600)
 
 # Layout dashboard menggunakan Panel dengan beberapa tab
 dashboard = pn.Column(
@@ -62,7 +70,8 @@ dashboard = pn.Column(
     pn.Tabs(
         ("Data Table", filtered_table),
         ("Temperature Chart", temperature_chart),
-        ("Humidity Chart", humidity_chart)
+        ("Humidity Chart", humidity_chart),
+        ("Pressure Chart", pressure_chart)
     )
 )
 
